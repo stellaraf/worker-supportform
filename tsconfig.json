@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "lib": ["ES2020", "WebWorker"],
+    "types": ["@cloudflare/workers-types", "node"],
+    "noImplicitAny": true,
+    "preserveConstEnums": true,
+    "moduleResolution": "node",
+    "sourceMap": true,
+    "esModuleInterop": true
+  },
+  "include": ["./src/*.ts", "./src/**/*.ts", "bindings.d.ts"],
+  "exclude": ["node_modules/", "dist/"]
+}

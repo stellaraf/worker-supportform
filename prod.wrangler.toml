@@ -1,0 +1,8 @@
+account_id = "6243a6f1d786bda59826d2c7afb7592b"
+entry-point = "build"
+name = "site-form-support"
+route = "stellar.tech/_form/support"
+type = "webpack"
+vars = {ENVIRONMENT = "production"}
+webpack_config = "webpack.config.js"
+zone_id = "7e9288b41202f31f23e7f6ef5754ba35"
