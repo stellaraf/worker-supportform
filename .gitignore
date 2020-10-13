@@ -1,10 +1,11 @@
+# Project
+.vscode
+*.html
+
 # Wrangler
 dev.wrangler.toml
 worker
 dist
-
-# Project
-.vscode
 
 # dependencies
 /node_modules
