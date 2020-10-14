@@ -43,6 +43,24 @@ async function handleRequest(request: Request) {
       });
     }
 
+    /**
+     * Handle SFDC's silly non-error errors.
+     *
+     * In the event that a required field is missing (especially in the case of the Org ID),
+     * SFDC responds with a 200 OK message, but with the header:
+     *
+     * Is-Processed: true Exception:common.exception.SalesforceGenericException
+     *
+     * This header indicates an invalid or missing required field.
+     */
+    const isProcessedHeader = submission.headers.get('is-processed');
+    if (isProcessedHeader && isProcessedHeader.match(/.*Exception.*/g)) {
+      return new Response(
+        JSON.stringify({ success: false, message: 'An error occurred after submitting the case.' }),
+        { status: 500, headers },
+      );
+    }
+
     // Handle a successful form submission.
     return new Response(
       JSON.stringify({ success: true, message: 'Successfully submitted case.' }),
