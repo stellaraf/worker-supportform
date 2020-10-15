@@ -6,6 +6,8 @@ import { buildUserData } from './userData';
 const RES_HEADERS = {
   'Content-Type': 'application/json',
   'Access-Control-Allow-Headers': 'Content-Type, x-stellar-site-form-support-key, User-Agent',
+  'Access-Control-Allow-Origin': '*',
+  'Access-Control-Allow-Methods': 'POST, OPTIONS',
 };
 
 /**
@@ -80,8 +82,27 @@ async function handleRequest(request: Request) {
 }
 
 /**
+ * Handle CORS preflight.
+ */
+async function handleCors(request: Request) {
+  if (
+    request.headers.get('Origin') &&
+    request.headers.get('Access-Control-Request-Method') &&
+    request.headers.get('Access-Control-Request-Headers')
+  ) {
+    return new Response(null, { headers: RES_HEADERS });
+  } else {
+    return new Response(null, { headers: { Allow: 'POST, OPTIONS' } });
+  }
+}
+
+/**
  * Worker event listener.
  */
 addEventListener('fetch', (event: FetchEvent) => {
-  event.respondWith(handleRequest(event.request));
+  if (event.request.method === 'OPTIONS') {
+    event.respondWith(handleCors(event.request));
+  } else {
+    event.respondWith(handleRequest(event.request));
+  }
 });
